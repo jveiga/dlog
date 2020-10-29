@@ -1,7 +1,6 @@
 use std::sync::{Arc, Mutex};
 
 use serde::{Deserialize, Serialize};
-use tide::prelude::*;
 use tide::{Body, Request, Response};
 
 use dlog::{Log, Record};
@@ -24,7 +23,7 @@ async fn create_record(mut req: Request<State>) -> tide::Result {
     let mut log = state.lock().unwrap();
     match log.append(Record {
         value: value.into_bytes(),
-        offset: None,
+        offset: 0,
     }) {
         None => unreachable!(),
         Some(offset) => {
